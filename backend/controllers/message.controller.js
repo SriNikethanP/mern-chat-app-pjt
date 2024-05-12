@@ -1,13 +1,14 @@
 import Conversation from "../models/conversation.model.js";
 import Message from "../models/message.model.js";
+import { getReceiverSocket } from "../socket/socket.js";
 
 export const sendMessage = async (req, res) => {
   try {
     const { message } = req.body;
     const { id: receiverId } = req.params;
     const senderId = req.user._id;
-    console.log("senderId", senderId);
-    console.log("receiverId", receiverId);
+    // console.log("senderId", senderId);
+    // console.log("receiverId", receiverId);
     let conversation = await Conversation.findOne({
       participants: {
         $all: [senderId, receiverId],

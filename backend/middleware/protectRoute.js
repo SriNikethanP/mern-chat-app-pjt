@@ -22,7 +22,7 @@ const protectRoute = async (req, res, next) => {
     }
 
     req.user = user;
-    console.log(user);
+    // console.log(user);
     next();
   } catch (error) {
     console.log("Error in protectRoute controller", error.message);
