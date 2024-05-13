@@ -7,7 +7,7 @@ const useGetMessages = () => {
   const { messages, setMessages, selectedConversation } = useConversation();
 
   useEffect(() => {
-    const getmessages = async (messages) => {
+    const getmessages = async () => {
       setLoading(true);
       try {
         const response = await fetch(
