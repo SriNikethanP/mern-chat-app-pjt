@@ -2,15 +2,27 @@ import React, { useEffect, useRef } from "react";
 import Message from "./Message";
 import useGetMessages from "../../hooks/useGetMessages";
 import useListenMessages from "../../hooks/useListenMessages";
+import io from "socket.io-client";
+
+const socket = io("https://mern-chat-app-pjt.onrender.com");
 
 const Messages = () => {
-  const { loading, messages } = useGetMessages();
-
-
+  const { loading, messages, setMessages } = useGetMessages(); // Ensure `useGetMessages` can update messages dynamically
   useListenMessages();
   const lastMessageRef = useRef();
 
-  
+  useEffect(() => {
+    
+    socket.on("receiveMessage", (newMessage) => {
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
+    });
+
+    return () => {
+     
+      socket.off("receiveMessage");
+    };
+  }, [setMessages]);
+
   useEffect(() => {
     setTimeout(() => {
       lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
